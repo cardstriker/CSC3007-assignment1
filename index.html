@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<script>
-			async function fetchCarParkData() {
-				let response = await fetch('https://api.data.gov.sg/v1/environment/psi');
-                let data = await response.json();
-				data.items[0].carpark_data.forEach(obj => {
-					$(".enviroTable").append(appendThis);
-				}
-		</script>
 		<title>Hello World</title>
-		<h1>Hello!</h1>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<p class="enviroTable"></p>
+		<div class="content">
+		    <div class = "heading">
+				<h2> Singapore Environment</h2>
+			</div>
+			<table class="enviroTable">
+			    <tr class = "tableHeader">
+                    <th>Carpark Number</th>
+                    <th>Time Stamp</th>
+                    <th>Lot Number</th>
+                    <th>Total Lots</th>
+                    <th>Lots Available</th>
+                    <th>Utilization</th>
+                </tr>
+				<script>
+					async function fetchEnviroData() {
+						let response = await fetch('https://api.data.gov.sg/v1/environment/psi');
+						let data = await response.json();
+						
+						data.items[0].readings.forEach(obj => {
+							 appendThis = "<tr><td></td></tr>";
+							 $(".enviroTable").append(appendThis);
+						});
+					}
+					
+					fetchEnviroData();
+					
+				</script>
+			</table>
+		</div>
 	</body>
 </html>
