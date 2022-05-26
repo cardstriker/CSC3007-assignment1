@@ -1,4 +1,18 @@
-<html>
-	<title>Hello World</title>
-	<h1>Hello!</h1>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script>
+			async function fetchCarParkData() {
+				let response = await fetch('https://api.data.gov.sg/v1/environment/psi');
+                let data = await response.json();
+				data.items[0].carpark_data.forEach(obj => {
+					$(".enviroTable").append(appendThis);
+				}
+		</script>
+		<title>Hello World</title>
+		<h1>Hello!</h1>
+	</head>
+	<body>
+		<p class="enviroTable"></p>
+	</body>
 </html>
