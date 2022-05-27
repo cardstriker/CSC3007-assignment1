@@ -2,32 +2,48 @@
 <html lang="en">
 	<head>
 		<title>Hello World</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<style>
+			.content {
+				text-align: center;
+			}
+			.content table{
+				text-align: left;
+				margin: auto;
+				padding: 10px;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="content">
 		    <div class = "heading">
-				<h2> Singapore Environment</h2>
+				<h2> Singapore Environment PSI</h2>
+				<h3 class="lastTimeStamp"></h3>
 			</div>
-			<table class="enviroTable">
+			<table class="enviroTable table table-dark">
 			    <tr class = "tableHeader">
-                    <th>Carpark Number</th>
-                    <th>Time Stamp</th>
-                    <th>Lot Number</th>
-                    <th>Total Lots</th>
-                    <th>Lots Available</th>
-                    <th>Utilization</th>
+                    <th>Metric</th>
+                    <th>National</th>
+                    <th>Central</th>
+                    <th>West</th>
+                    <th>East</th>
+                    <th>North</th>
+					<th>South</th>
                 </tr>
 				<script>
 					async function fetchEnviroData() {
 						let response = await fetch('https://api.data.gov.sg/v1/environment/psi');
 						let data = await response.json();
+						$(".lastTimeStamp").append("Last updated: " + data.items[0].timestamp);
+						let readings = data.items[0].readings						
+						for (let key in readings){
+							appendThis = "<tr><td>"+ JSON.stringify(key).replaceAll('"', '') +"</td><td>"+ readings[key].national +"</td><td>"+ readings[key].central +"</td><td>"+ readings[key].west +"</td><td>"+ readings[key].east +"</td><td>"+ readings[key].north +"</td><td>"+ readings[key].south +"</td></tr>";
+							$(".enviroTable").append(appendThis);
+						}
 						
-						data.items[0].readings.forEach(obj => {
-							 appendThis = "<tr><td></td></tr>";
-							 $(".enviroTable").append(appendThis);
-						});
-					}
+					};
 					
 					fetchEnviroData();
 					
